@@ -1,0 +1,36 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-films-genres-table
+      author: maypink
+      changes:
+        - createTable:
+            tableName: films_genres
+            columns:
+              - column:
+                  name: film_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+              - column:
+                  name: genre_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+
+        - addPrimaryKey:
+            columnNames: film_id, genre_id
+            tableName: films_genres
+
+        - addForeignKeyConstraint:
+            baseColumnNames: film_id
+            baseTableName: films_genres
+            constraintName: constraintFilmIdInFilmsGenresTable
+            referencedColumnNames: id
+            referencedTableName: films
+
+        - addForeignKeyConstraint:
+            baseColumnNames: genre_id
+            baseTableName: films_genres
+            constraintName: constraintGenreIdInFilmsGenresTable
+            referencedColumnNames: id
+            referencedTableName: genres
