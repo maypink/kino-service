@@ -1,5 +1,6 @@
-package kino.exception;
+package kino.exception.film;
 
+import kino.exception.film.FilmErrorResponse;
 import org.springframework.http.ResponseEntity;
 
 public class ResponseFilmErrorException extends RuntimeException{

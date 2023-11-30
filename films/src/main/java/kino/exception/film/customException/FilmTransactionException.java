@@ -1,4 +1,4 @@
-package kino.exception.customException;
+package kino.exception.film.customException;
 
 public class FilmTransactionException extends FilmException{
     public FilmTransactionException(String message) {

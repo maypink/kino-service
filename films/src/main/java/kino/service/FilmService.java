@@ -13,4 +13,6 @@ public interface FilmService {
     List<FilmResource> getFilmsByGenre(String genre);
 
     List<FilmResource> getFilmByYear(Integer year);
+
+    FilmResource save(FilmResource filmResource);
 }

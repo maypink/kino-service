@@ -18,6 +18,18 @@ import java.util.UUID;
 @NoArgsConstructor
 public class Film {
 
+
+    public Film(UUID id,
+         String title,
+         Integer year,
+         Set<Genre> genres)
+    {
+        this.id = id;
+        this.title = title;
+        this.year = year;
+        this.genres = genres;
+    }
+
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.UUID)

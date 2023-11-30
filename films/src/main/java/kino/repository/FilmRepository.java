@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -21,4 +22,6 @@ public interface FilmRepository extends JpaRepository<Film, UUID> {
     List<Film> findByYear(Integer year);
 
     List<Film> findAll();
+
+    List<Film> findByTitleAndYear(String title, Integer year);
 }

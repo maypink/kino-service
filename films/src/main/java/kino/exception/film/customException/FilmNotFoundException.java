@@ -1,4 +1,4 @@
-package kino.exception.customException;
+package kino.exception.film.customException;
 
 public class FilmNotFoundException extends FilmException{
     public FilmNotFoundException(String message) {

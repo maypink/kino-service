@@ -1,4 +1,4 @@
-package kino.exception;
+package kino.exception.film;
 
 
 import lombok.AllArgsConstructor;
