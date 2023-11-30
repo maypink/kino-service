@@ -1,0 +1,30 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-users-table
+      author: maypink
+      changes:
+        - createTable:
+            tableName: users_table
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: user_pk
+                    nullable: false
+              - column:
+                  name: username
+                  type: VARCHAR(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: name
+                  type: VARCHAR(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: surname
+                  type: VARCHAR(30)
+                  constraints:
+                    nullable: false

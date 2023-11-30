@@ -1,0 +1,6 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/changeset/create-users-table.yml
+  - include:
+      file: db/changelog/changeset/insert-data-into-users-table.yml
+
