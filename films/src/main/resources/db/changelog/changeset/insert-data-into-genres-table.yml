@@ -1,0 +1,8 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert-data-into-genres-table
+      author: maypink
+      changes:
+        - sqlFile:
+            path: db/changelog/sql/genres.sql
+            stripComments: true

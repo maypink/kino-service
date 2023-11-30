@@ -1,0 +1,20 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-film-genres-table
+      author: maypink
+      changes:
+        - createTable:
+            tableName: genres
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: genre_pk
+                    nullable: false
+              - column:
+                  name: genre
+                  type: VARCHAR(64)
+                  constraints:
+                    nullable: false

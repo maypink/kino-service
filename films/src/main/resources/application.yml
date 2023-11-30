@@ -1,0 +1,25 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, metrics, prometheus
+server:
+  port: '8081'
+spring:
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        show_sql: 'true'
+  application:
+    name: '''Maiia course project'''
+  datasource:
+    driverClassName: org.postgresql.Driver
+    password: password
+    username: postgres
+    url: jdbc:postgresql://localhost:5432/
+  liquibase:
+    change-log: classpath:db/changelog/changelog-master.yml
+  sql:
+    init:
+      mode: always

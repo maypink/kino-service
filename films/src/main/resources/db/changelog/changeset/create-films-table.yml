@@ -1,0 +1,25 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-films-table
+      author: maypink
+      changes:
+        - createTable:
+            tableName: films
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: film_pk
+                    nullable: false
+              - column:
+                  name: title
+                  type: VARCHAR(128)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: year
+                  type: INT
+                  constraints:
+                    nullable: false
