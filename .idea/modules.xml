@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/kino-service.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/kino-service.app.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/films/kino-service.films.main.iml" filepath="$PROJECT_DIR$/.idea/modules/films/kino-service.films.main.iml" />
     </modules>
   </component>
 </project>

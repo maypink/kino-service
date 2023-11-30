@@ -12,3 +12,6 @@ plugins {
 
 rootProject.name = 'kino-service'
 include('app')
+include 'users'
+include 'films'
+
