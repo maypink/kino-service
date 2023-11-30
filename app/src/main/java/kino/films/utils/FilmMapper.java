@@ -13,7 +13,7 @@ public class FilmMapper {
     GenreMapper genreMapper;
 
     public FilmResource toResource(Film film){
-        List<GenreResource> genreResourceList = film.getFilmGenres().stream().map(genre -> genreMapper.toResource(genre)).toList();
+        List<GenreResource> genreResourceList = film.getGenres().stream().map(genre -> genreMapper.toResource(genre)).toList();
         return new FilmResource(film.getTitle(), film.getYear(), genreResourceList);
     }
 }

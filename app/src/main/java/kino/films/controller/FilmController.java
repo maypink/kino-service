@@ -10,10 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,7 +25,7 @@ public class FilmController {
     @Operation(
             summary = "Get films from database by title."
     )
-    @GetMapping("/{title}")
+    @GetMapping("title/{title}")
     public ResponseEntity<?> getFilmsByTitle(@PathVariable @Parameter(description = "title") String title) {
 
         List<FilmResource> filmResources = filmService.getFilmsByTitle(title);
@@ -42,8 +39,8 @@ public class FilmController {
     @Operation(
             summary = "Get films from database by genre."
     )
-    @GetMapping("/{genre}")
-    public ResponseEntity<?> getFilmsByGenre(@PathVariable @Parameter(description = "genre") String genre) {
+    @GetMapping("genres")
+    public ResponseEntity<?> getFilmsByGenres(@RequestParam("genres") String genre) {
 
         List<FilmResource> filmResources = filmService.getFilmsByGenre(genre);
         if (filmResources.isEmpty()){
@@ -56,7 +53,7 @@ public class FilmController {
     @Operation(
             summary = "Get films from database by year."
     )
-    @GetMapping("/{year}")
+    @GetMapping("year/{year}")
     public ResponseEntity<?> getFilmsByYear(@PathVariable @Parameter(description = "year") Integer year) {
 
         List<FilmResource> filmResources = filmService.getFilmByYear(year);

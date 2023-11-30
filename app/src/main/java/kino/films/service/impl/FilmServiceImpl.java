@@ -22,13 +22,13 @@ public class FilmServiceImpl implements FilmService {
 
     @Override
     public List<FilmResource> getAllFilms() {
-        List<Film> films = filmRepository.getAllFilms();
+        List<Film> films = filmRepository.findAll();
         return films.stream().map(film -> filmMapper.toResource(film)).collect(Collectors.toList());
     }
 
     @Override
     public List<FilmResource> getFilmsByTitle(String title) {
-        List<Film> films = filmRepository.findByFilmTitle(title);
+        List<Film> films = filmRepository.findByTitle(title);
         return films.stream().map(film -> filmMapper.toResource(film)).collect(Collectors.toList());
     }
 

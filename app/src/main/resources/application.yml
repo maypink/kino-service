@@ -3,6 +3,8 @@ management:
     web:
       exposure:
         include: health, metrics, prometheus
+server:
+  port: '8081'
 spring:
   jpa:
     properties:

@@ -36,5 +36,5 @@ public class Film {
             name = "films_genres",
             joinColumns = @JoinColumn(name = "film_id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id"))
-    private Set<Genre> filmGenres;
+    private Set<Genre> genres;
 }
