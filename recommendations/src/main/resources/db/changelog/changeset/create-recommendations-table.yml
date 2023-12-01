@@ -1,0 +1,35 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-recommendations-table
+      author: maypink
+      changes:
+        - createTable:
+            tableName: recommendations_table
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: recommendation_pk
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+              - column:
+                  name: film_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+              - column:
+                  name: score
+                  type: Double
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date_time
+                  type: datetime
+                  constraints:
+                    nullable: false
