@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/films/kino-service.films.main.iml" filepath="$PROJECT_DIR$/.idea/modules/films/kino-service.films.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/users/kino-service.users.main.iml" filepath="$PROJECT_DIR$/.idea/modules/users/kino-service.users.main.iml" />
     </modules>
   </component>
 </project>
