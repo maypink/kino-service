@@ -1,0 +1,8 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert-data-into-recommendations-table
+      author: maypink
+      changes:
+        - sqlFile:
+            path: db/changelog/sql/recommendations.sql
+            stripComments: true
