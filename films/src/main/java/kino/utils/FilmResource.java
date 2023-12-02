@@ -1,22 +1,20 @@
 package kino.utils;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import kino.client.Tmdb.utils.FilmInfoResource;
 
 import java.util.List;
 import java.util.UUID;
 
-@Setter
-@Getter
-@AllArgsConstructor
-public class FilmResource {
+public record FilmResource(
 
-    UUID id;
+    UUID id,
 
-    String title;
+    String title,
 
-    Integer year;
+    Integer year,
 
-    List<GenreResource> genre;
-}
+    FilmInfoResource filmInfoResource,
+
+    List<GenreResource> genre
+)
+{}

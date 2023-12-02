@@ -22,11 +22,13 @@ public class Film {
     public Film(UUID id,
          String title,
          Integer year,
+         FilmInfo filmInfo,
          Set<Genre> genres)
     {
         this.id = id;
         this.title = title;
         this.year = year;
+        this.filmInfo = filmInfo;
         this.genres = genres;
     }
 
@@ -42,6 +44,10 @@ public class Film {
     @Min(1800)
     @Max(2023)
     private Integer year;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "film_info_id", referencedColumnName = "id")
+    private FilmInfo filmInfo;
 
     @ManyToMany
     @JoinTable(

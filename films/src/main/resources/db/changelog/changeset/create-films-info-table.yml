@@ -1,0 +1,31 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-films-info-table
+      author: maypink
+      changes:
+        - createTable:
+            tableName: films_info
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: film_info_pk
+                    nullable: false
+#              - column:
+#                  name: film_id
+#                  type: UUID
+#                  constraints:
+#                    foreignKeyName: film_id
+#                    nullable: false
+              - column:
+                  name: tmdb_id
+                  type: VARCHAR(15)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: poster_path
+                  type: VARCHAR(256)
+                  constraints:
+                    nullable: true

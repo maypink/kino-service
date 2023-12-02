@@ -9,9 +9,9 @@
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-configuration-processor/3.1.4/7113c079f7f9fedad3fbac9997340c57a865cf73/spring-boot-configuration-processor-3.1.4.jar" />
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.30/f195ee86e6c896ea47a1d39defbe20eb59cd149d/lombok-1.18.30.jar" />
         </processorPath>
-        <module name="kino-service.films.main" />
-        <module name="kino-service.recommendations.main" />
-        <module name="kino-service.users.main" />
+        <module name="IdeaProjects.kino-service.recommendations.main" />
+        <module name="IdeaProjects.kino-service.films.main" />
+        <module name="IdeaProjects.kino-service.users.main" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="17" />

@@ -1,0 +1,8 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert-data-into-films-info-table
+      author: maypink
+      changes:
+        - sqlFile:
+            path: db/changelog/sql/films-info.sql
+            stripComments: true

@@ -13,6 +13,6 @@ public class GenreMapper {
     }
 
     public Genre toGenre(GenreResource genreResource){
-        return new Genre(genreResource.getId(), genreResource.getGenre());
+        return new Genre(genreResource.id(), genreResource.genre());
     }
 }

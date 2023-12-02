@@ -33,13 +33,13 @@ public class GenreServiceImpl implements GenreService {
     }
 
     public GenreResource save(GenreResource genreResource) throws GenreDuplicateException{
-        List<GenreResource> genreResourceList = findGenreByGenre(genreResource.getGenre());
+        List<GenreResource> genreResourceList = findGenreByGenre(genreResource.genre());
         if (!genreResourceList.isEmpty()){
             throw new GenreDuplicateException("Attempt to insert duplicate of genre.");
         }
         Genre genre = new Genre(
-                genreResource.getId(),
-                genreResource.getGenre());
+                genreResource.id(),
+                genreResource.genre());
         genreRepository.save(genre);
         return genreMapper.toResource(genre);
     }

@@ -37,6 +37,10 @@ dependencies {
     implementation group: 'org.postgresql', name: 'postgresql', version: '42.6.0'
     implementation "org.springframework.kafka:spring-kafka"
     implementation group: 'io.springfox', name: 'springfox-spring-web', version: '2.0.1'
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '4.0.0'
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-dependencies', version: '2020.0.2', ext: 'pom'
+    implementation group: 'io.github.openfeign', name: 'feign-jackson', version: '12.3'
+    implementation group: 'com.google.code.gson', name: 'gson', version: '2.10.1'
 
 
     testImplementation group: 'io.rest-assured', name: 'rest-assured', version: '5.3.2'

@@ -1,14 +1,17 @@
 databaseChangeLog:
   - include:
+      file: db/changelog/changeset/create-films-info-table.yml
+  - include:
       file: db/changelog/changeset/create-films-table.yml
   - include:
       file: db/changelog/changeset/create-genres-table.yml
   - include:
       file: db/changelog/changeset/create-films-genres-table.yml
   - include:
+      file: db/changelog/changeset/insert-data-into-films-info-table.yml
+  - include:
       file: db/changelog/changeset/insert-data-into-films-table.yml
   - include:
       file: db/changelog/changeset/insert-data-into-genres-table.yml
   - include:
       file: db/changelog/changeset/insert-data-into-films-genres-table.yml
-
