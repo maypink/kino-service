@@ -18,5 +18,7 @@ public class FilmResource {
 
     Integer year;
 
+    String tmdbId;
+
     List<GenreResource> genre;
 }

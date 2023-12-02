@@ -2,8 +2,10 @@ package kino.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import kino.client.Tmdb.utils.FilmInfoResource;
 import kino.exception.film.ResponseFilmErrorException;
 import kino.exception.film.customException.FilmNotFoundException;
+import kino.service.FilmClientService;
 import kino.service.FilmService;
 import kino.utils.FilmResource;
 import kino.utils.GenreResource;
@@ -25,6 +27,9 @@ public class FilmController {
 
     @Autowired
     FilmService filmService;
+
+    @Autowired
+    FilmClientService filmClientService;
 
     @Operation(
             summary = "Get films from database by title."
@@ -81,13 +86,25 @@ public class FilmController {
             summary = "Add film."
     )
     @PostMapping("/new")
-    // TODO: ADD FILMS FROM IMDB
     public ResponseEntity<?> add(@RequestParam @Parameter(description = "title") String title,
                                  @RequestParam @Parameter(description = "year") Integer year,
+                                 @RequestParam @Parameter(description = "tmdbId") String tmdbId,
                                  @RequestParam @Parameter(description = "genre") List<String> genre) throws ResponseFilmErrorException {
 
-        FilmResource filmResource = new FilmResource(UUID.randomUUID(), title, year, genre.stream().map(g -> new GenreResource(UUID.randomUUID(), g)).toList());
+        FilmResource filmResource = new FilmResource(UUID.randomUUID(), title, year, tmdbId, genre.stream().map(g -> new GenreResource(UUID.randomUUID(), g)).toList());
         filmService.save(filmResource);
         return ResponseEntity.status(HttpStatus.CREATED).body(filmResource);
+    }
+
+    @Operation(
+            summary = "Add film with TMDb."
+    )
+    @PostMapping("/newWithTMDb")
+    public ResponseEntity<?> addWithTMDb(@RequestParam @Parameter(description = "title") String title,
+                                         @RequestParam @Parameter(description = "year") Integer year) throws ResponseFilmErrorException {
+
+        FilmInfoResource filmInfoResource = filmClientService.getFilmInfoByTitleAndYear(title, year);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(filmInfoResource);
     }
 }

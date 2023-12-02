@@ -1,30 +1,25 @@
 databaseChangeLog:
   - changeSet:
-      id: create-films-table
+      id: create-films-info-table
       author: maypink
       changes:
         - createTable:
-            tableName: films
+            tableName: films_info
             columns:
               - column:
                   name: id
                   type: UUID
                   constraints:
                     primaryKey: true
-                    primaryKeyName: film_pk
+                    primaryKeyName: film_info_pk
                     nullable: false
               - column:
-                  name: title
-                  type: VARCHAR(128)
+                  name: film_id
+                  type: UUID
                   constraints:
                     nullable: false
               - column:
-                  name: year
-                  type: INT
+                  name: poster_path
+                  type: VARCHAR(256)
                   constraints:
-                    nullable: false
-              - column:
-                  name: tmdb_id
-                  type: VARCHAR(15)
-                  constraints:
-                    nullable: false
+                    nullable: true

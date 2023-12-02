@@ -14,6 +14,6 @@ public class FilmMapper {
 
     public FilmResource toResource(Film film){
         List<GenreResource> genreResourceList = film.getGenres().stream().map(genre -> genreMapper.toResource(genre)).toList();
-        return new FilmResource(film.getId(), film.getTitle(), film.getYear(), genreResourceList);
+        return new FilmResource(film.getId(), film.getTitle(), film.getYear(), film.getTmdbId(), genreResourceList);
     }
 }

@@ -22,11 +22,13 @@ public class Film {
     public Film(UUID id,
          String title,
          Integer year,
+         String tmdbId,
          Set<Genre> genres)
     {
         this.id = id;
         this.title = title;
         this.year = year;
+        this.tmdbId = tmdbId;
         this.genres = genres;
     }
 
@@ -42,6 +44,11 @@ public class Film {
     @Min(1800)
     @Max(2023)
     private Integer year;
+
+    @Size(min = 1, message = "IMDb id is too short.")
+    @Size(max = 15, message = "IMDb id is too long.")
+    @Column(name = "tmdb_id")
+    private String tmdbId;
 
     @ManyToMany
     @JoinTable(

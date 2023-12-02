@@ -54,6 +54,7 @@ public class FilmServiceImpl implements FilmService {
         return films.stream().map(film -> filmMapper.toResource(film)).collect(Collectors.toList());
     }
 
+    @Override
     public List<FilmResource> getFilmByTitleYear(String title, Integer year){
         List<Film> film = filmRepository.findByTitleAndYear(title, year);
         return film.stream().map(f -> filmMapper.toResource(f)).toList();
@@ -77,11 +78,12 @@ public class FilmServiceImpl implements FilmService {
         }
 
         Film film = new Film(
-                UUID.randomUUID(),
+                filmResource.getId(),
                 filmResource.getTitle(),
                 filmResource.getYear(),
+                String.valueOf(filmResource.getTmdbId()),
                 genreResourceListToSave.stream().map(g -> genreMapper.toGenre(g)).collect(Collectors.toSet()));
         filmRepository.save(film);
-        return filmResource;
+        return filmMapper.toResource(film);
     }
 }
