@@ -1,8 +1,9 @@
 package kino.client.Tmdb;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 
-public record FilmInfoApiResponce(
+public record TmdbApiResponceById(
         boolean adult,
         String backdrop_path,
         Integer id,
@@ -13,7 +14,7 @@ public record FilmInfoApiResponce(
         String overview,
         String poster_path,
         String media_type,
-        List<Integer> genre_ids,
+        List<LinkedHashMap<String, String>> genres,
         Float popularity,
         // may be "first_air_date" for some movies instead
         String release_date,
@@ -21,6 +22,6 @@ public record FilmInfoApiResponce(
         Float vote_average,
         Integer vote_count,
 
-        Integer status_code){
-
+        Integer status_code
+) {
 }

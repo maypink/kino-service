@@ -25,5 +25,5 @@ spring:
       mode: always
 feign:
   name: 'filmClient'
-  url: 'https://api.themoviedb.org/3/search/multi'
+  url: 'https://api.themoviedb.org/3/'
   api_key: 'f458dab3ff3438a712e4d9aa4884c49f'

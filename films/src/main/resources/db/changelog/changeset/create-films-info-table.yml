@@ -13,9 +13,15 @@ databaseChangeLog:
                     primaryKey: true
                     primaryKeyName: film_info_pk
                     nullable: false
+#              - column:
+#                  name: film_id
+#                  type: UUID
+#                  constraints:
+#                    foreignKeyName: film_id
+#                    nullable: false
               - column:
-                  name: film_id
-                  type: UUID
+                  name: tmdb_id
+                  type: VARCHAR(15)
                   constraints:
                     nullable: false
               - column:

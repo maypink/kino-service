@@ -1,7 +1,5 @@
 package kino.client.Tmdb.utils;
 
-import java.util.List;
-
 public enum GenreTmdbEnum {
     Action(28),
     Adventure(12),

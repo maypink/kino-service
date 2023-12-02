@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @FeignClient(name = "${feign.name}", url = "${feign.url}")
 public interface FilmClient {
-    @RequestMapping(method = RequestMethod.GET, value = "/{postId}?api_key=${feign.api_key}")
-    Json getFilmById(@PathVariable("filmId") Integer filmId);
+    @RequestMapping(method = RequestMethod.GET, value = "movie/{filmId}?api_key=${feign.api_key}")
+    TmdbApiResponceById getFilmById(@PathVariable("filmId") String filmId);
 
-    @RequestMapping(method = RequestMethod.GET, value = "?api_key=${feign.api_key}&query={title}", produces = "application/json")
+    @RequestMapping(method = RequestMethod.GET, value = "search/multi?api_key=${feign.api_key}&query={title}", produces = "application/json")
     TmdbApiResponce getFilmInfoByTitle(@PathVariable("title") String title);
 }

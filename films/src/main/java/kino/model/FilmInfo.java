@@ -11,16 +11,16 @@ import java.util.UUID;
 @Setter
 @Entity
 @Table(name = "films_info")
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class FilmInfo {
 
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    private UUID filmId;
+    @Column(name = "tmdb_id")
+    private String tmdbId;
 
     private String posterPath;
 }

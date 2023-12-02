@@ -24,7 +24,14 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: tmdb_id
-                  type: VARCHAR(15)
+                  name: film_info_id
+                  type: UUID
                   constraints:
                     nullable: false
+
+        - addForeignKeyConstraint:
+            baseColumnNames: film_info_id
+            baseTableName: films
+            constraintName: constraintFilmInfoIdInFilmsTable
+            referencedColumnNames: id
+            referencedTableName: films_info

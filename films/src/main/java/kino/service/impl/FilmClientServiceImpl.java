@@ -3,15 +3,11 @@ package kino.service.impl;
 import kino.client.Tmdb.FilmClient;
 import kino.client.Tmdb.FilmInfoApiResponce;
 import kino.client.Tmdb.TmdbApiResponce;
-import kino.client.Tmdb.utils.FilmInfoMapper;
+import kino.client.Tmdb.TmdbApiResponceById;
 import kino.client.Tmdb.utils.FilmInfoResource;
 import kino.client.Tmdb.utils.GenreTmdbEnum;
-import kino.exception.film.customException.FilmDuplicateException;
 import kino.exception.film.customException.FilmNotFoundException;
-import kino.repository.FilmInfoRepository;
 import kino.service.FilmClientService;
-import kino.service.FilmInfoService;
-import kino.service.FilmService;
 import kino.utils.FilmResource;
 import kino.utils.GenreResource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 import java.util.UUID;
-
 
 @Service
 public class FilmClientServiceImpl implements FilmClientService {
@@ -29,56 +23,44 @@ public class FilmClientServiceImpl implements FilmClientService {
     @Autowired
     FilmClient filmClient;
 
-    @Autowired
-    FilmService filmService;
-
-    @Autowired
-    FilmInfoMapper filmInfoMapper;
-
-    @Autowired
-    FilmInfoService filmInfoService;
-
     @Override
-    public FilmInfoResource getFilmInfoByTitleAndYear(String title, Integer year) throws FilmNotFoundException {
+    public FilmResource getFilmResourceByTitleAndYear(String title, Integer year) throws FilmNotFoundException {
         TmdbApiResponce tmdbApiResponce = filmClient.getFilmInfoByTitle(title);
         if (tmdbApiResponce.results().isEmpty()){
             throw new FilmNotFoundException("There is no such film in TMDb.");
         }
-        FilmInfoApiResponce filmInfoApiResponce = tmdbApiResponce.results().get(0);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate filmReleaseDate = LocalDate.parse(filmInfoApiResponce.release_date(), formatter);
-        if (filmReleaseDate.getYear() != year){
+        // get film with appropriate release date
+        for (FilmInfoApiResponce filmInfoApiResponce: tmdbApiResponce.results()){
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate filmReleaseDate = LocalDate.parse(filmInfoApiResponce.release_date(), formatter);
+            if (filmReleaseDate.getYear() == year){
+                // form film resource
+                return new FilmResource(
+                        UUID.randomUUID(),
+                        filmInfoApiResponce.title(),
+                        year,
+                        new FilmInfoResource(UUID.randomUUID(), String.valueOf(filmInfoApiResponce.id()), filmInfoApiResponce.poster_path()),
+                        filmInfoApiResponce.genre_ids().stream().map(g -> new GenreResource(UUID.randomUUID(), GenreTmdbEnum.fromInteger(g))).toList());
+            }
+        }
+        throw new FilmNotFoundException("There is no such film in TMDb.");
+    }
+
+    @Override
+    public FilmResource getFilmResourceByTmdbId(String tmdbId) {
+        TmdbApiResponceById tmdbApiResponceById = filmClient.getFilmById(tmdbId);
+        if (tmdbApiResponceById.status_code() != null){
             throw new FilmNotFoundException("There is no such film in TMDb.");
         }
 
-        // check if there is a film in db
-        List<FilmResource> filmResourceList = filmService.getFilmByTitleYear(filmInfoApiResponce.title(), filmReleaseDate.getYear());
-        if (filmResourceList.isEmpty()){
-            FilmResource filmResource = new FilmResource(
-                    UUID.randomUUID(),
-                    filmInfoApiResponce.title(),
-                    filmReleaseDate.getYear(),
-                    String.valueOf(filmInfoApiResponce.id()),
-                    filmInfoApiResponce.genre_ids().stream().map(g -> new GenreResource(UUID.randomUUID(), GenreTmdbEnum.fromInteger(g))).toList());
-            FilmResource savedFilmResource = filmService.save(filmResource);
-
-            // save film info
-            FilmInfoResource filmInfoResource = new FilmInfoResource(
-                    UUID.randomUUID(),
-                    savedFilmResource.getId(),
-                    filmInfoApiResponce.poster_path());
-            if (filmInfoService.getFilmInfosByFilmId(filmInfoResource.getFilmId()).isEmpty()){
-                filmInfoService.save(filmInfoResource);
-            }
-        } else {
-            throw new FilmDuplicateException("Attempt to insert duplicate of film.");
-        }
-
-        return filmInfoMapper.toResource(filmInfoApiResponce);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate filmReleaseDate = LocalDate.parse(tmdbApiResponceById.release_date(), formatter);
+        // get film with appropriate release date
+        return new FilmResource(
+                UUID.randomUUID(),
+                tmdbApiResponceById.title(),
+                filmReleaseDate.getYear(),
+                new FilmInfoResource(UUID.randomUUID(), String.valueOf(tmdbApiResponceById.id()), tmdbApiResponceById.poster_path()),
+                tmdbApiResponceById.genres().stream().map(g -> new GenreResource(UUID.randomUUID(), GenreTmdbEnum.fromInteger(Integer.parseInt(g.get("id"))))).toList());
     }
-
-    public void saveFilmInfo(FilmInfoResource filmInfoResource){
-        return;
-    }
-
 }

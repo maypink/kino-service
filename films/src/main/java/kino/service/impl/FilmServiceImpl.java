@@ -1,8 +1,12 @@
 package kino.service.impl;
 
+import kino.client.Tmdb.utils.FilmInfoMapper;
+import kino.client.Tmdb.utils.FilmInfoResource;
 import kino.exception.film.customException.FilmDuplicateException;
 import kino.model.Film;
+import kino.model.FilmInfo;
 import kino.repository.FilmRepository;
+import kino.service.FilmInfoService;
 import kino.service.FilmService;
 import kino.service.GenreService;
 import kino.utils.FilmMapper;
@@ -19,6 +23,9 @@ import java.util.stream.Collectors;
 public class FilmServiceImpl implements FilmService {
 
     @Autowired
+    FilmInfoService filmInfoService;
+
+    @Autowired
     FilmRepository filmRepository;
 
     @Autowired
@@ -26,6 +33,9 @@ public class FilmServiceImpl implements FilmService {
 
     @Autowired
     FilmMapper filmMapper;
+
+    @Autowired
+    FilmInfoMapper filmInfoMapper;
 
     @Autowired
     GenreMapper genreMapper;
@@ -61,14 +71,14 @@ public class FilmServiceImpl implements FilmService {
     }
 
     public FilmResource save(FilmResource filmResource){
-        List<FilmResource> filmResourceList = getFilmByTitleYear(filmResource.getTitle(), filmResource.getYear());
+        List<FilmResource> filmResourceList = getFilmByTitleYear(filmResource.title(), filmResource.year());
         if (!filmResourceList.isEmpty()){
-            throw new FilmDuplicateException("Attempt to insert duplicate of genre.");
+            throw new FilmDuplicateException("Attempt to insert duplicate of film.");
         }
         // save all non-existent genres
         ArrayList<GenreResource> genreResourceListToSave = new ArrayList<>(Collections.emptyList());
-        for (GenreResource genreResource: filmResource.getGenre() ){
-            List<GenreResource> genreResourceList = genreService.findGenreByGenre(genreResource.getGenre());
+        for (GenreResource genreResource: filmResource.genre() ){
+            List<GenreResource> genreResourceList = genreService.findGenreByGenre(genreResource.genre());
             if (genreResourceList.isEmpty()){
                 GenreResource savedGenreResource = genreService.save(genreResource);
                 genreResourceListToSave.add(savedGenreResource);
@@ -77,11 +87,18 @@ public class FilmServiceImpl implements FilmService {
             }
         }
 
+        FilmInfo filmInfo = new FilmInfo(
+                UUID.randomUUID(),
+                filmResource.filmInfoResource().tmdbId(),
+                filmResource.filmInfoResource().posterPath()
+        );
+        FilmInfoResource savedFilmInfoResource = filmInfoService.save(filmInfoMapper.toResource(filmInfo));
+
         Film film = new Film(
-                filmResource.getId(),
-                filmResource.getTitle(),
-                filmResource.getYear(),
-                String.valueOf(filmResource.getTmdbId()),
+                filmResource.id(),
+                filmResource.title(),
+                filmResource.year(),
+                filmInfoMapper.toFilmInfo(savedFilmInfoResource),
                 genreResourceListToSave.stream().map(g -> genreMapper.toGenre(g)).collect(Collectors.toSet()));
         filmRepository.save(film);
         return filmMapper.toResource(film);

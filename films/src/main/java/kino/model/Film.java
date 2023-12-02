@@ -22,13 +22,13 @@ public class Film {
     public Film(UUID id,
          String title,
          Integer year,
-         String tmdbId,
+         FilmInfo filmInfo,
          Set<Genre> genres)
     {
         this.id = id;
         this.title = title;
         this.year = year;
-        this.tmdbId = tmdbId;
+        this.filmInfo = filmInfo;
         this.genres = genres;
     }
 
@@ -45,10 +45,9 @@ public class Film {
     @Max(2023)
     private Integer year;
 
-    @Size(min = 1, message = "IMDb id is too short.")
-    @Size(max = 15, message = "IMDb id is too long.")
-    @Column(name = "tmdb_id")
-    private String tmdbId;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "film_info_id", referencedColumnName = "id")
+    private FilmInfo filmInfo;
 
     @ManyToMany
     @JoinTable(

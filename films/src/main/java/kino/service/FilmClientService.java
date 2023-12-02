@@ -1,8 +1,10 @@
 package kino.service;
 
-import kino.client.Tmdb.utils.FilmInfoResource;
+import kino.utils.FilmResource;
 
 public interface FilmClientService {
 
-    FilmInfoResource getFilmInfoByTitleAndYear(String title, Integer year);
+    FilmResource getFilmResourceByTitleAndYear(String title, Integer year);
+
+    FilmResource getFilmResourceByTmdbId(String tmdbId);
 }
