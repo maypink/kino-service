@@ -28,6 +28,9 @@ public class FilmController {
     @Autowired
     private final FilmClientService filmClientService;
 
+    @Autowired
+    FilmClientService filmClientService;
+
     @Operation(
             summary = "Get films from database by title."
     )
