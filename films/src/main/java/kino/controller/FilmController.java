@@ -23,7 +23,10 @@ import java.util.List;
 public class FilmController {
 
     @Autowired
-    FilmService filmService;
+    private final FilmService filmService;
+
+    @Autowired
+    private final FilmClientService filmClientService;
 
     @Autowired
     FilmClientService filmClientService;

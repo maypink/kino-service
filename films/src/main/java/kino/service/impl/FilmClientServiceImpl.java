@@ -6,6 +6,7 @@ import kino.client.Tmdb.TmdbApiResponce;
 import kino.client.Tmdb.TmdbApiResponceById;
 import kino.client.Tmdb.utils.FilmInfoResource;
 import kino.client.Tmdb.utils.GenreTmdbEnum;
+import kino.exception.film.customException.FilmException;
 import kino.exception.film.customException.FilmNotFoundException;
 import kino.service.FilmClientService;
 import kino.utils.FilmResource;
@@ -32,15 +33,19 @@ public class FilmClientServiceImpl implements FilmClientService {
         // get film with appropriate release date
         for (FilmInfoApiResponce filmInfoApiResponce: tmdbApiResponce.results()){
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            LocalDate filmReleaseDate = LocalDate.parse(filmInfoApiResponce.release_date(), formatter);
+            String date = filmInfoApiResponce.releaseDate() != null? filmInfoApiResponce.releaseDate(): filmInfoApiResponce.firstAirDate();
+            if (date == null || date.isEmpty()){
+                continue;
+            }
+            LocalDate filmReleaseDate = LocalDate.parse(date, formatter);
             if (filmReleaseDate.getYear() == year){
                 // form film resource
                 return new FilmResource(
                         UUID.randomUUID(),
                         filmInfoApiResponce.title(),
                         year,
-                        new FilmInfoResource(UUID.randomUUID(), String.valueOf(filmInfoApiResponce.id()), filmInfoApiResponce.poster_path()),
-                        filmInfoApiResponce.genre_ids().stream().map(g -> new GenreResource(UUID.randomUUID(), GenreTmdbEnum.fromInteger(g))).toList());
+                        new FilmInfoResource(UUID.randomUUID(), String.valueOf(filmInfoApiResponce.id()), filmInfoApiResponce.posterPath()),
+                        filmInfoApiResponce.genreIds().stream().map(g -> new GenreResource(UUID.randomUUID(), GenreTmdbEnum.fromInteger(g))).toList());
             }
         }
         throw new FilmNotFoundException("There is no such film in TMDb.");
@@ -49,18 +54,22 @@ public class FilmClientServiceImpl implements FilmClientService {
     @Override
     public FilmResource getFilmResourceByTmdbId(String tmdbId) {
         TmdbApiResponceById tmdbApiResponceById = filmClient.getFilmById(tmdbId);
-        if (tmdbApiResponceById.status_code() != null){
+        if (tmdbApiResponceById.statusCode() != null){
             throw new FilmNotFoundException("There is no such film in TMDb.");
         }
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate filmReleaseDate = LocalDate.parse(tmdbApiResponceById.release_date(), formatter);
+        String date = tmdbApiResponceById.releaseDate() != null? tmdbApiResponceById.releaseDate(): tmdbApiResponceById.firstAirDate();
+        if (date == null || date.isEmpty()){
+            throw new FilmException("Validation failed for release date -- it is incorrect in API.");
+        }
+        LocalDate filmReleaseDate = LocalDate.parse(date, formatter);
         // get film with appropriate release date
         return new FilmResource(
                 UUID.randomUUID(),
                 tmdbApiResponceById.title(),
                 filmReleaseDate.getYear(),
-                new FilmInfoResource(UUID.randomUUID(), String.valueOf(tmdbApiResponceById.id()), tmdbApiResponceById.poster_path()),
+                new FilmInfoResource(UUID.randomUUID(), String.valueOf(tmdbApiResponceById.id()), tmdbApiResponceById.posterPath()),
                 tmdbApiResponceById.genres().stream().map(g -> new GenreResource(UUID.randomUUID(), GenreTmdbEnum.fromInteger(Integer.parseInt(g.get("id"))))).toList());
     }
 }
