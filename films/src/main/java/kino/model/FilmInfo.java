@@ -22,5 +22,6 @@ public class FilmInfo {
     @Column(name = "tmdb_id")
     private String tmdbId;
 
+    @Column(name = "poster_path")
     private String posterPath;
 }

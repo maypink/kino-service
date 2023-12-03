@@ -22,7 +22,7 @@ import java.util.UUID;
 public class GenreController {
 
     @Autowired
-    GenreService genreService;
+    private final GenreService genreService;
 
     @Operation(
             summary = "Get all genres from database."
