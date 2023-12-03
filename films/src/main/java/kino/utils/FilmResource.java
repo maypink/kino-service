@@ -2,6 +2,7 @@ package kino.utils;
 
 import kino.client.Tmdb.utils.FilmInfoResource;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
@@ -16,5 +17,5 @@ public record FilmResource(
     FilmInfoResource filmInfoResource,
 
     List<GenreResource> genre
-)
+) implements Serializable
 {}

@@ -1,0 +1,12 @@
+version: "2.1"
+services:
+  rabbitmq:
+    image: rabbitmq:3.10.7-management
+    hostname: rabbitmq
+    restart: always
+    environment:
+      - RABBITMQ_DEFAULT_USER=maypink
+      - RABBITMQ_DEFAULT_PASS=password
+    ports:
+      - 15672:15672
+      - 5672:5672
