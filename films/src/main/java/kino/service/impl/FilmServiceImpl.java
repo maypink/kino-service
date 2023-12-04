@@ -70,6 +70,12 @@ public class FilmServiceImpl implements FilmService {
         return film.stream().map(f -> filmMapper.toResource(f)).toList();
     }
 
+    @Override
+    public List<FilmResource> getFilmByTmdbId(String tmdbId){
+        List<Film> film = filmRepository.findByTmdbId(tmdbId);
+        return film.stream().map(f -> filmMapper.toResource(f)).toList();
+    }
+
     public FilmResource save(FilmResource filmResource){
         List<FilmResource> filmResourceList = getFilmByTitleYear(filmResource.title(), filmResource.year());
         if (!filmResourceList.isEmpty()){

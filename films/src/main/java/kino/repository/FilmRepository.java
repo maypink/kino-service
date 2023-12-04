@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -24,4 +23,8 @@ public interface FilmRepository extends JpaRepository<Film, UUID> {
     List<Film> findAll();
 
     List<Film> findByTitleAndYear(String title, Integer year);
+
+    @Query(value = "SELECT * FROM films WHERE film_info_id IN\n" +
+            "(SELECT id FROM films_info where tmdb_id=:tmdbId)", nativeQuery = true)
+    List<Film> findByTmdbId(String tmdbId);
 }
