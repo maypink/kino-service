@@ -15,4 +15,5 @@ include('app')
 include 'users'
 include 'films'
 include 'recommendations'
+include 'facade'
 

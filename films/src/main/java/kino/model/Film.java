@@ -45,11 +45,11 @@ public class Film {
     @Max(2023)
     private Integer year;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "film_info_id", referencedColumnName = "id")
     private FilmInfo filmInfo;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "films_genres",
             joinColumns = @JoinColumn(name = "film_id"),

@@ -29,7 +29,6 @@ dependencies {
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     annotationProcessor 'org.projectlombok:lombok'
     implementation 'com.h2database:h2:2.2.224'
-    implementation group: 'org.liquibase', name: 'liquibase-core', version: '4.24.0'
     implementation group: 'jakarta.persistence', name: 'jakarta.persistence-api', version: '3.1.0'
     implementation group: 'org.springframework.data', name: 'spring-data-commons', version: '3.1.4'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '3.1.4'
@@ -44,6 +43,7 @@ dependencies {
     implementation group: 'com.rabbitmq', name: 'amqp-client', version: '5.20.0'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-amqp', version: '3.2.0'
     implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.20.0'
+
 
     testImplementation group: 'io.rest-assured', name: 'rest-assured', version: '5.3.2'
     testRuntimeOnly("org.junit.platform:junit-platform-launcher") {

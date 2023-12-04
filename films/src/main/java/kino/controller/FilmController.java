@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
 @RestController
 @RequestMapping("/films")
 @RequiredArgsConstructor
@@ -27,9 +26,6 @@ public class FilmController {
 
     @Autowired
     private final FilmClientService filmClientService;
-
-    @Autowired
-    FilmClientService filmClientService;
 
     @Operation(
             summary = "Get films from database by title."

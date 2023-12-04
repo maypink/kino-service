@@ -1,13 +1,13 @@
-package kino.client.Tmdb.utils;
+package org.kino.utils;
 
 import java.io.Serializable;
 import java.util.UUID;
 
 public record FilmInfoResource(
-    UUID id,
+        UUID id,
 
-    String tmdbId,
+        String tmdbId,
 
-    String posterPath
+        String posterPath
 ) implements Serializable
 {}
