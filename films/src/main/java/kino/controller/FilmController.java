@@ -74,8 +74,8 @@ public class FilmController {
     )
     @GetMapping("/all")
     public ResponseEntity<?> getAllFilms() {
-        List<FilmResource> weatherResources = filmService.getAllFilms();
-        return ResponseEntity.status(HttpStatus.OK).body(weatherResources);
+        List<FilmResource> filmResources = filmService.getAllFilms();
+        return ResponseEntity.status(HttpStatus.OK).body(filmResources);
 
     }
 

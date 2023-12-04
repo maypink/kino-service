@@ -29,6 +29,13 @@ databaseChangeLog:
                   constraints:
                     nullable: false
 
+#        - addForeignKeyConstraint:
+#            baseColumnNames: film_info_id
+#            baseTableName: films
+#            constraintName: constraintFilmInfoIdInFilmsTable
+#            referencedColumnNames: id
+#            referencedTableName: films_info
+
         - addForeignKeyConstraint:
             baseColumnNames: film_info_id
             baseTableName: films

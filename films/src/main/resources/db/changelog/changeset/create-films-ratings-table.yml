@@ -1,0 +1,38 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-films-ratings-table
+      author: maypink
+      changes:
+        - createTable:
+            tableName: films_ratings
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: film_rating_pk
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+              - column:
+                  name: film_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+              - column:
+                  name: rating
+                  type: int
+                  constraints:
+                    nullable: false
+
+        - addForeignKeyConstraint:
+            baseColumnNames: film_id
+            baseTableName: films_ratings
+            constraintName: constraintFilmIdInFilmsRatingsTable
+            referencedColumnNames: id
+            referencedTableName: films
+

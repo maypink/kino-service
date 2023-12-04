@@ -8,6 +8,8 @@ databaseChangeLog:
   - include:
       file: db/changelog/changeset/create-films-genres-table.yml
   - include:
+      file: db/changelog/changeset/create-films-ratings-table.yml
+  - include:
       file: db/changelog/changeset/insert-data-into-films-info-table.yml
   - include:
       file: db/changelog/changeset/insert-data-into-films-table.yml
@@ -15,3 +17,5 @@ databaseChangeLog:
       file: db/changelog/changeset/insert-data-into-genres-table.yml
   - include:
       file: db/changelog/changeset/insert-data-into-films-genres-table.yml
+  - include:
+      file: db/changelog/changeset/insert-data-into-films-ratings-table.yml

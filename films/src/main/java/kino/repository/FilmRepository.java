@@ -24,4 +24,8 @@ public interface FilmRepository extends JpaRepository<Film, UUID> {
     List<Film> findAll();
 
     List<Film> findByTitleAndYear(String title, Integer year);
+
+    @Query(value = "SELECT * FROM films WHERE id IN\n" +
+            "(SELECT id FROM films_ratings where tmdb_id=:tmdbId)", nativeQuery = true)
+    List<Film> findByTmdbId(String tmdbId);
 }

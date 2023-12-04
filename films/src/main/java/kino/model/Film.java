@@ -49,6 +49,9 @@ public class Film {
     @JoinColumn(name = "film_info_id", referencedColumnName = "id")
     private FilmInfo filmInfo;
 
+    @OneToMany(mappedBy="film_id")
+    private Set<FilmRating> ratings;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "films_genres",
