@@ -49,7 +49,8 @@ public class Film {
     @JoinColumn(name = "film_info_id", referencedColumnName = "id")
     private FilmInfo filmInfo;
 
-    @OneToMany(mappedBy="film_id")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "film_id")
     private Set<FilmRating> ratings;
 
     @ManyToMany(fetch = FetchType.EAGER)

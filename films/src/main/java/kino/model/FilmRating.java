@@ -23,8 +23,6 @@ public class FilmRating {
     @Column(name = "user_id")
     private UUID userId;
 
-//    @ManyToOne(targetEntity = Film.class)
-//    @JoinColumn(name="film_id")
     private UUID film_id;
 
     @Column(name = "rating")

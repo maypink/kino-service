@@ -41,7 +41,7 @@ public class FilmRatingController {
             summary = "Get films rating by user_id."
     )
     @GetMapping("/{user_id}")
-    public ResponseEntity<?> getFilmRatingsByUserId(@PathVariable @Parameter(description = "user_id") UUID userId) {
+    public ResponseEntity<?> getFilmRatingsByUserId(@RequestParam @Parameter(description = "user_id") UUID userId) {
 
         List<FilmRatingResource> filmRatingResources = filmRatingService.getAllFilmRatingForUserId(userId);
         if (filmRatingResources.isEmpty()){
