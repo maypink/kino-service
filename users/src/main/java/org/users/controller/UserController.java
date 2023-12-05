@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.users.utils.UserResourse;
+import org.users.utils.UserResource;
 
 import java.util.List;
 import java.util.UUID;
@@ -31,11 +31,11 @@ public class UserController {
     @GetMapping("username/{username}")
     public ResponseEntity<?> getUserByUsername(@PathVariable @Parameter(description = "username") String username) {
 
-        List<UserResourse> userResourseList = userService.findByUsername(username);
-        if (userResourseList.isEmpty()){
+        List<UserResource> userResourceList = userService.findByUsername(username);
+        if (userResourceList.isEmpty()){
             throw new UserNotFoundException("User with specified username was not found.");
         } else {
-            return ResponseEntity.status(HttpStatus.OK).body(userResourseList);
+            return ResponseEntity.status(HttpStatus.OK).body(userResourceList);
         }
     }
 
@@ -44,7 +44,7 @@ public class UserController {
     )
     @GetMapping("/all")
     public ResponseEntity<?> getAllUsers() {
-        List<UserResourse> userResources = userService.getAllUsers();
+        List<UserResource> userResources = userService.getAllUsers();
         return ResponseEntity.status(HttpStatus.OK).body(userResources);
     }
 
@@ -56,8 +56,8 @@ public class UserController {
                                  @RequestParam @Parameter(description = "name") String name,
                                  @RequestParam @Parameter(description = "surname") String surname) throws ResponseUserErrorException {
 
-        UserResourse userResourse = new UserResourse(UUID.randomUUID(), username, name, surname);
-        userService.save(userResourse);
-        return ResponseEntity.status(HttpStatus.CREATED).body(userResourse);
+        UserResource userResource = new UserResource(UUID.randomUUID(), username, name, surname);
+        UserResource savedUserResource = userService.save(userResource);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedUserResource);
     }
 }

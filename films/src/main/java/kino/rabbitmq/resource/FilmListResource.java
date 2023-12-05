@@ -1,4 +1,6 @@
-package kino.utils;
+package kino.rabbitmq.resource;
+
+import kino.utils.FilmResource;
 
 import java.io.Serializable;
 import java.util.List;

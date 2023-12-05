@@ -1,6 +1,6 @@
-package org.kino.config;
+package org.users.config;
 
-import org.springframework.amqp.core.AmqpAdmin;
+import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -8,7 +8,6 @@ import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 
 @EnableRabbit
 @Configuration
@@ -27,16 +26,15 @@ public class RabbitConfiguration {
         return rabbitAdmin;
     }
 
-    @Primary
     @Bean
-    public RabbitTemplate rabbitTemplateExchangeFilms() {
+    public RabbitTemplate rabbitTemplate() {
         RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory());
-        rabbitTemplate.setExchange("exchange-films");
         return rabbitTemplate;
     }
 
     @Bean
-    public RabbitTemplate rabbitTemplate() {
-        return new RabbitTemplate(connectionFactory());
-    }
+    public Queue myQueue1(){return new Queue("getUserByUsername");}
+
+    @Bean
+    public Queue myQueue2(){return new Queue("addUser");}
 }

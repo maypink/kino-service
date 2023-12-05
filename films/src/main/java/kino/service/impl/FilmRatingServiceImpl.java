@@ -6,6 +6,8 @@ import kino.model.FilmRating;
 import kino.repository.FilmRatingRepository;
 import kino.service.FilmRatingService;
 import kino.service.FilmService;
+import kino.rabbitmq.RabbitMqProducer;
+import kino.rabbitmq.resource.UserResource;
 import kino.utils.FilmRatingMapper;
 import kino.utils.FilmRatingResource;
 import kino.utils.FilmResource;
@@ -18,6 +20,9 @@ import java.util.stream.Collectors;
 
 @Service
 public class FilmRatingServiceImpl implements FilmRatingService {
+
+    @Autowired
+    RabbitMqProducer rabbitMqProducer;
 
     @Autowired
     FilmService filmService;
@@ -39,6 +44,14 @@ public class FilmRatingServiceImpl implements FilmRatingService {
         List<FilmRating> filmRatingResourceList = filmRatingRepository.findByUserIdAndFilmId(userId, filmId);
         return filmRatingResourceList.stream().map(film -> filmRatingMapper.toResource(film)).collect(Collectors.toList());
     }
+
+    @Override
+    public List<FilmRatingResource> getAllFilmRatingForUsername(String username) throws InterruptedException {
+        UserResource userResource = rabbitMqProducer.getUserByUsername(username);
+        List<FilmRating> filmRatingResourceList = filmRatingRepository.findByUserId(userResource.id());
+        return filmRatingResourceList.stream().map(film -> filmRatingMapper.toResource(film)).collect(Collectors.toList());
+    }
+
 
     @Override
     public List<FilmRatingResource> getAllFilmRatings() {
