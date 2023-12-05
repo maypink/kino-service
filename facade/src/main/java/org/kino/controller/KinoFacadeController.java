@@ -4,14 +4,12 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.kino.rabbitmq.RabbitMqListener;
 import org.kino.rabbitmq.RabbitMqProducer;
+import org.kino.utils.rabbitUtils.RecommendationResourceList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @Slf4j
@@ -20,9 +18,6 @@ public class KinoFacadeController {
 
     @Autowired
     RabbitMqProducer rabbitMqProducer;
-
-    @Autowired
-    RabbitMqListener rabbitMqListener;
 
     // FILM SECTION
     @Operation(
@@ -85,17 +80,9 @@ public class KinoFacadeController {
     @Operation(
             summary = "Get recommendations for username."
     )
-    @GetMapping("request_recommendation/{username}")
+    @GetMapping("recommendation/{username}")
     public ResponseEntity<?> requestRecommendationsByUsername(@PathVariable @Parameter(description = "username") String username) throws InterruptedException {
-        rabbitMqProducer.getRecommendationForUsername(username);
-        return ResponseEntity.status(HttpStatus.ACCEPTED).build();
-    }
-
-    @Operation(
-            summary = "Get recommendations for username."
-    )
-    @GetMapping("get_recommendation/{username}")
-    public ResponseEntity<?> getRecommendationsByUsername(@PathVariable @Parameter(description = "username") String username) throws InterruptedException {
-        return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+        RecommendationResourceList recommendationResourceList = rabbitMqProducer.getRecommendationForUsername(username);
+        return ResponseEntity.status(HttpStatus.OK).body(recommendationResourceList);
     }
 }

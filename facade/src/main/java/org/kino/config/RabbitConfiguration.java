@@ -41,8 +41,4 @@ public class RabbitConfiguration {
         return new RabbitTemplate(connectionFactory());
     }
 
-    @Bean
-    public Queue myQueue1() {
-        return new Queue("getRecommendationForUsernameForFacade");
-    }
 }

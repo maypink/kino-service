@@ -72,8 +72,9 @@ public class RabbitMqProducer {
     }
 
     // RECOMMENDATIONS
-    public void getRecommendationForUsername(String username) throws InterruptedException {
+    public RecommendationResourceList getRecommendationForUsername(String username) throws InterruptedException {
         log.info("Facade Service -- RabbitMqProducer.getRecommendationForUsername method was evoked.");
-        template.convertAndSend("getRecommendationForUsername", username);
+        String response = (String) rabbitConfiguration.rabbitTemplate().convertSendAndReceive("getRecommendationForUsername", username);
+        return gson.fromJson(response, RecommendationResourceList.class);
     }
 }

@@ -6,6 +6,6 @@ import java.io.Serializable;
 import java.util.List;
 
 public record RecommendationResourceList (
-        List<RecommendationResource> recommendationResourceList
+        List<RecommendationResourceStr> recommendationResourceList
 ) implements Serializable
 {}
