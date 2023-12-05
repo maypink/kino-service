@@ -37,4 +37,7 @@ public class RabbitConfiguration {
 
     @Bean
     public Queue myQueue2(){return new Queue("addUser");}
+
+    @Bean
+    public Queue myQueue3(){return new Queue("getUserByUsernameForRecommendations");}
 }

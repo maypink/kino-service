@@ -60,6 +60,12 @@ public class RabbitConfiguration {
     public Queue myQueue6(){return new Queue("addFilmRatingForUsernameAndTmdbId");}
 
     @Bean
+    public Queue myQueue7(){return new Queue("getAllFilmRatingsByUsernameForRecommendations");}
+
+    @Bean
+    public Queue myQueue8(){return new Queue("getAllFilmsForRecommendations");}
+
+    @Bean
     public DirectExchange directExchange(){
         return new DirectExchange("exchange-films");
     }

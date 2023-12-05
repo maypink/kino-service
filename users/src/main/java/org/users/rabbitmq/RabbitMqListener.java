@@ -42,4 +42,14 @@ public class RabbitMqListener {
         UserResource savedUserResource = userService.save(userResource);
         return gson.toJson(savedUserResource);
     }
+
+    @RabbitListener(queues = "getUserByUsernameForRecommendations")
+    public String worker3(String username) {
+        log.info("Accepted on worker 1 for getUserByUsernameForRecommendations");
+        List<UserResource> userResourceList = userService.findByUsername(username);
+        if (userResourceList.isEmpty()){
+            throw new UserNotFoundException("User with specified username does not exist.");
+        }
+        return gson.toJson(userResourceList.get(0));
+    }
 }

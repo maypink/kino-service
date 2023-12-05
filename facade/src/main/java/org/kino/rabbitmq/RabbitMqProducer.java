@@ -73,4 +73,12 @@ public class RabbitMqProducer {
                 gson.toJson(new UserResource(UUID.randomUUID(), username, name, surname)));
         return gson.fromJson(response, UserResource.class);
     }
+
+    // RECOMMENDATIONS
+    public FilmListResource getRecommendationForUserId() throws InterruptedException {
+        log.info("Facade Service -- RabbitMqProducer.getAllFilms method was evoked.");
+        String response = (String) template.convertSendAndReceive("getAllFilms", "simpleMessage");
+        // maybe if response is null then raise exception
+        return gson.fromJson(response, FilmListResource.class);
+    }
 }

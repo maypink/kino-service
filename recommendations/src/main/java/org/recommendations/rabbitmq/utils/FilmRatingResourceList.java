@@ -1,6 +1,4 @@
-package org.kino.utils.rabbitUtils;
-
-import org.kino.utils.FilmRatingResource;
+package org.recommendations.rabbitmq.utils;
 
 import java.io.Serializable;
 import java.util.List;

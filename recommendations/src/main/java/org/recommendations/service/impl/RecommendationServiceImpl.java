@@ -2,24 +2,56 @@ package org.recommendations.service.impl;
 
 import org.recommendations.exception.customException.RecommendationNotFoundException;
 import org.recommendations.model.Recommendation;
+import org.recommendations.rabbitmq.RabbitMqProducer;
+import org.recommendations.rabbitmq.utils.UserResource;
 import org.recommendations.repository.RecommendationRepository;
+import org.recommendations.service.RecommendationGenerationService;
 import org.recommendations.service.RecommendationService;
 import org.recommendations.utils.RecommendationMapper;
 import org.recommendations.utils.RecommendationResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
 @Service
 public class RecommendationServiceImpl implements RecommendationService {
 
+    public static final Integer NUMBER_OF_RECOMMENDATIONS = 2;
+
+    @Autowired
+    RecommendationGenerationService recommendationGenerationService;
+
     @Autowired
     RecommendationRepository recommendationRepository;
 
     @Autowired
     RecommendationMapper recommendationMapper;
+
+    @Autowired
+    RabbitMqProducer rabbitMqProducer;
+
+    @Override
+    public List<RecommendationResource> getRecommendationForUsername(String username) throws InterruptedException {
+        UserResource userResource = rabbitMqProducer.getUserByUsername(username);
+        UUID userId = userResource.id();
+        List<RecommendationResource> recommendationResourceList = findAllByUserId(userId);
+        if (recommendationResourceList.size() < NUMBER_OF_RECOMMENDATIONS){
+            List<RecommendationResource> generatedRecommendations = recommendationGenerationService.generateRecommendationsForUsername(userId, username, NUMBER_OF_RECOMMENDATIONS);
+            for (RecommendationResource recommendationResource: generatedRecommendations){
+                save(recommendationResource);
+            }
+            return generatedRecommendations;
+        } else {
+            return recommendationResourceList
+                    .stream()
+                    .sorted(Comparator.comparing( RecommendationResource::dateTime ).reversed())
+                    .limit(NUMBER_OF_RECOMMENDATIONS)
+                    .toList();
+        }
+    }
 
     @Override
     public List<RecommendationResource> findAllByUserId(UUID userId) {
@@ -36,26 +68,26 @@ public class RecommendationServiceImpl implements RecommendationService {
     @Override
     public RecommendationResource save(RecommendationResource recommendationResource) {
         List<RecommendationResource> recommendationResourceList =
-                findAllByUserIdAndFilmId(recommendationResource.getUserId(), recommendationResource.getFilmId());
+                findAllByUserIdAndFilmId(recommendationResource.userId(), recommendationResource.filmId());
         if (!recommendationResourceList.isEmpty()){
             recommendationRepository.updateById(
-                    recommendationResourceList.get(0).getId(),
-                    recommendationResource.getDateTime(),
-                    recommendationResource.getScore());
+                    recommendationResourceList.get(0).id(),
+                    recommendationResource.dateTime(),
+                    recommendationResource.score());
             RecommendationResource recommendationResourceToReturn = new RecommendationResource(
-                    recommendationResourceList.get(0).getId(),
-                    recommendationResource.getUserId(),
-                    recommendationResource.getFilmId(),
-                    recommendationResource.getScore(),
-                    recommendationResource.getDateTime());
+                    recommendationResourceList.get(0).id(),
+                    recommendationResource.userId(),
+                    recommendationResource.filmId(),
+                    recommendationResource.score(),
+                    recommendationResource.dateTime());
             return recommendationResourceToReturn;
         } else {
             Recommendation recommendation = new Recommendation(
-                    recommendationResource.getId(),
-                    recommendationResource.getUserId(),
-                    recommendationResource.getFilmId(),
-                    recommendationResource.getScore(),
-                    recommendationResource.getDateTime()
+                    recommendationResource.id(),
+                    recommendationResource.userId(),
+                    recommendationResource.filmId(),
+                    recommendationResource.score(),
+                    recommendationResource.dateTime()
             );
             recommendationRepository.save(recommendation);
             return recommendationMapper.toResource(recommendation);
@@ -64,17 +96,17 @@ public class RecommendationServiceImpl implements RecommendationService {
 
     @Override
     public RecommendationResource delete(RecommendationResource recommendationResource) {
-        List<RecommendationResource> recommendationResourceList = findAllByUserIdAndFilmId(recommendationResource.getUserId(), recommendationResource.getFilmId());
+        List<RecommendationResource> recommendationResourceList = findAllByUserIdAndFilmId(recommendationResource.userId(), recommendationResource.filmId());
         if (recommendationResourceList.isEmpty()){
             throw new RecommendationNotFoundException("Recommendation with specified user_id and film_id was not found.");
         }
         RecommendationResource recommendationResource1 = recommendationResourceList.get(0);
         Recommendation recommendationToDelete = new Recommendation(
-                recommendationResource1.getId(),
-                recommendationResource.getUserId(),
-                recommendationResource.getFilmId(),
-                recommendationResource1.getScore(),
-                recommendationResource1.getDateTime()
+                recommendationResource1.id(),
+                recommendationResource.userId(),
+                recommendationResource.filmId(),
+                recommendationResource.score(),
+                recommendationResource.dateTime()
         );
         recommendationRepository.delete(recommendationToDelete);
         return recommendationMapper.toResource(recommendationToDelete);
