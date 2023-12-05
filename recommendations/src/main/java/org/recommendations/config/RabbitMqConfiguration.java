@@ -1,6 +1,7 @@
 package org.recommendations.config;
 
 import org.springframework.amqp.core.AmqpAdmin;
+import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -29,5 +30,10 @@ public class RabbitMqConfiguration {
     @Bean
     public RabbitTemplate rabbitTemplate() {
         return new RabbitTemplate(connectionFactory());
+    }
+
+    @Bean
+    public Queue myQueue1() {
+        return new Queue("getRecommendationForUsername");
     }
 }

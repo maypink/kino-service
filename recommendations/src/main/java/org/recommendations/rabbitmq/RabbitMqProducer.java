@@ -2,7 +2,6 @@ package org.recommendations.rabbitmq;
 
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
-import org.recommendations.config.RabbitMqConfiguration;
 import org.recommendations.rabbitmq.utils.FilmListResource;
 import org.recommendations.rabbitmq.utils.FilmRatingResourceList;
 import org.recommendations.rabbitmq.utils.UserResource;

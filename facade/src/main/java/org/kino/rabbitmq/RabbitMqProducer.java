@@ -5,11 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.kino.config.RabbitConfiguration;
 import org.kino.utils.FilmRatingResource;
 import org.kino.utils.UserResource;
-import org.kino.utils.rabbitUtils.FilmListResource;
+import org.kino.utils.rabbitUtils.*;
 import org.kino.utils.FilmResource;
-import org.kino.utils.rabbitUtils.FilmRatingInfo;
-import org.kino.utils.rabbitUtils.FilmRatingResourceList;
-import org.kino.utils.rabbitUtils.FilmSearchInfo;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -75,10 +72,8 @@ public class RabbitMqProducer {
     }
 
     // RECOMMENDATIONS
-    public FilmListResource getRecommendationForUserId() throws InterruptedException {
-        log.info("Facade Service -- RabbitMqProducer.getAllFilms method was evoked.");
-        String response = (String) template.convertSendAndReceive("getAllFilms", "simpleMessage");
-        // maybe if response is null then raise exception
-        return gson.fromJson(response, FilmListResource.class);
+    public void getRecommendationForUsername(String username) throws InterruptedException {
+        log.info("Facade Service -- RabbitMqProducer.getRecommendationForUsername method was evoked.");
+        template.convertAndSend("getRecommendationForUsername", username);
     }
 }

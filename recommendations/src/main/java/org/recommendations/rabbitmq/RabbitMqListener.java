@@ -12,10 +12,14 @@ import java.util.List;
 @Component
 public class RabbitMqListener {
 
-//    private final Gson gson = new Gson();
-//
-//    @RabbitListener(queues = "getRecommendationForUserId")
-//    public void worker1(String userId) {
-//        log.info("Accepted on worker 1 for get recommendation for user id");
-//    }
+    private final Gson gson = new Gson();
+
+    @Autowired
+    RabbitMqProducerFacade rabbitMqProducerFacade;
+
+    @RabbitListener(queues = "getRecommendationForUsername")
+    public void worker1(String username) throws InterruptedException {
+        log.info("Accepted on worker 1 for get recommendation for username");
+        rabbitMqProducerFacade.getRecommendationForUsernameForFacade(username);
+    }
 }
