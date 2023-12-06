@@ -15,6 +15,8 @@ public record TmdbApiResponceById(
         String name,
         @JsonProperty("original_language")
         String originalLanguage,
+        @JsonProperty("original_name")
+        String originalName,
         @JsonProperty("original_title")
         String originalTitle,
         String overview,
