@@ -10,6 +10,8 @@ import java.util.UUID;
 public interface FilmRatingService {
     List<FilmRatingResource> getAllFilmRatingForUserId(UUID userId);
 
+    List<FilmRatingResource> getAllFilmRatingForUsername(String username) throws InterruptedException;
+
     List<FilmRatingResource> getAllFilmRatingForUserIdAndFilmId(UUID userId, UUID filmId);
 
     List<FilmRatingResource> getAllFilmRatings();

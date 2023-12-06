@@ -1,4 +1,4 @@
-package kino.utils;
+package kino.rabbitmq.resource;
 
 import java.io.Serializable;
 

@@ -17,10 +17,10 @@ public class RecommendationMapper {
 
     public Recommendation toRecommendation(RecommendationResource recommendationResource){
         return new Recommendation(
-                recommendationResource.getId(),
-                recommendationResource.getUserId(),
-                recommendationResource.getFilmId(),
-                recommendationResource.getScore(),
-                recommendationResource.getDateTime());
+                recommendationResource.id(),
+                recommendationResource.userId(),
+                recommendationResource.filmId(),
+                recommendationResource.score(),
+                recommendationResource.dateTime());
     }
 }

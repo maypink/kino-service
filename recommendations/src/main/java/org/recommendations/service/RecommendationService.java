@@ -9,6 +9,10 @@ import java.util.UUID;
 @Service
 public interface RecommendationService {
 
+//    List<RecommendationResource> getRecommendationForUserId(UUID userId);
+
+    List<RecommendationResource> getRecommendationForUsername(String username) throws InterruptedException;
+
     List<RecommendationResource> findAllByUserId(UUID userId);
 
     List<RecommendationResource> findAllByUserIdAndFilmId(UUID userId, UUID filmId);

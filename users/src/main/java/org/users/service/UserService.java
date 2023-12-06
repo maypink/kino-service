@@ -1,16 +1,16 @@
 package org.users.service;
 
 import org.springframework.stereotype.Service;
-import org.users.utils.UserResourse;
+import org.users.utils.UserResource;
 
 import java.util.List;
 
 @Service
 public interface UserService {
 
-    List<UserResourse> getAllUsers();
+    List<UserResource> getAllUsers();
 
-    List<UserResourse> findByUsername(String username);
+    List<UserResource> findByUsername(String username);
 
-    UserResourse save(UserResourse userResourse);
+    UserResource save(UserResource userResource);
 }

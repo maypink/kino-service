@@ -1,4 +1,4 @@
-package org.kino.config;
+package org.recommendations.config;
 
 import org.springframework.amqp.core.AmqpAdmin;
 import org.springframework.amqp.core.Queue;
@@ -9,11 +9,10 @@ import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 
 @EnableRabbit
 @Configuration
-public class RabbitConfiguration {
+public class RabbitMqConfiguration {
 
     @Bean
     public ConnectionFactory connectionFactory() {
@@ -28,17 +27,13 @@ public class RabbitConfiguration {
         return rabbitAdmin;
     }
 
-    @Primary
-    @Bean
-    public RabbitTemplate rabbitTemplateExchangeFilms() {
-        RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory());
-        rabbitTemplate.setExchange("exchange-films");
-        return rabbitTemplate;
-    }
-
     @Bean
     public RabbitTemplate rabbitTemplate() {
         return new RabbitTemplate(connectionFactory());
     }
 
+    @Bean
+    public Queue myQueue1() {
+        return new Queue("getRecommendationForUsername");
+    }
 }

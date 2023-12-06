@@ -3,7 +3,6 @@ package org.recommendations.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
-import org.joda.time.DateTime;
 import org.recommendations.exception.ResponseRecommendationErrorException;
 import org.recommendations.exception.customException.RecommendationNotFoundException;
 import org.recommendations.service.RecommendationService;
@@ -28,14 +27,14 @@ public class RecommendationController {
     RecommendationService recommendationService;
 
     @Operation(
-            summary = "Get recommendations be userId."
+            summary = "Get recommendations for username."
     )
-    @GetMapping("recommendation/{userId}")
-    public ResponseEntity<?> getRecommendationsByUserId(@PathVariable @Parameter(description = "userId") UUID userId) {
+    @GetMapping("recommendation/{username}")
+    public ResponseEntity<?> getRecommendationsByUsername(@PathVariable @Parameter(description = "username") String username) throws InterruptedException {
 
-        List<RecommendationResource> recommendationResourceList = recommendationService.findAllByUserId(userId);
+        List<RecommendationResource> recommendationResourceList = recommendationService.getRecommendationForUsername(username);
         if (recommendationResourceList.isEmpty()){
-            throw new RecommendationNotFoundException("User with specified user_id was not found.");
+            throw new RecommendationNotFoundException("Recommendations for specified username were not found.");
         } else {
             return ResponseEntity.status(HttpStatus.OK).body(recommendationResourceList);
         }
@@ -61,7 +60,7 @@ public class RecommendationController {
     public ResponseEntity<?> delete(@RequestParam @Parameter(description = "userId") UUID userId,
                                     @RequestParam @Parameter(description = "filmId") UUID filmId) throws ResponseRecommendationErrorException {
 
-        RecommendationResource recommendationResource = new RecommendationResource(userId, filmId);
+        RecommendationResource recommendationResource = new RecommendationResource(UUID.randomUUID(), userId, filmId, 0D, LocalDateTime.now());
         recommendationService.delete(recommendationResource);
         return ResponseEntity.status(HttpStatus.OK).body(recommendationResource);
     }

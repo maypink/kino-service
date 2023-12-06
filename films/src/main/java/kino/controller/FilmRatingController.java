@@ -7,7 +7,6 @@ import kino.exception.film.customException.FilmNotFoundException;
 import kino.service.FilmRatingService;
 import kino.service.FilmService;
 import kino.utils.FilmRatingResource;
-import kino.utils.FilmResource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,12 +37,12 @@ public class FilmRatingController {
     }
 
     @Operation(
-            summary = "Get films rating by user_id."
+            summary = "Get films rating by username."
     )
-    @GetMapping("/{user_id}")
-    public ResponseEntity<?> getFilmRatingsByUserId(@RequestParam @Parameter(description = "user_id") UUID userId) {
+    @GetMapping("/{username}")
+    public ResponseEntity<?> getFilmRatingsByUsername(@RequestParam @Parameter(description = "username") String username) throws InterruptedException {
 
-        List<FilmRatingResource> filmRatingResources = filmRatingService.getAllFilmRatingForUserId(userId);
+        List<FilmRatingResource> filmRatingResources = filmRatingService.getAllFilmRatingForUsername(username);
         if (filmRatingResources.isEmpty()){
             throw new FilmNotFoundException("Ratings for specified user_id were not found.");
         } else {

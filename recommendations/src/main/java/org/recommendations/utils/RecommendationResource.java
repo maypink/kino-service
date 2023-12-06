@@ -9,29 +9,16 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Setter
-@Getter
-@AllArgsConstructor
-public class RecommendationResource {
+public record RecommendationResource (
 
-    private static final Double DEFAULT_SCORE = 0D;
+    UUID id,
 
-    public RecommendationResource(UUID userId,
-                                  UUID filmId){
-        this.id = UUID.randomUUID();
-        this.userId = userId;
-        this.filmId = filmId;
-        this.score = DEFAULT_SCORE;
-        this.dateTime = LocalDateTime.now();
-    }
+    UUID userId,
 
-    UUID id;
+    UUID filmId,
 
-    UUID userId;
+    Double score,
 
-    UUID filmId;
-
-    Double score;
-
-    LocalDateTime dateTime;
-}
+    LocalDateTime dateTime
+    )
+{}
