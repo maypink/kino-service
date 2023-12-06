@@ -1,5 +1,6 @@
 package org.recommendations.service.impl;
 
+import lombok.extern.slf4j.Slf4j;
 import org.recommendations.exception.customException.RecommendationNotFoundException;
 import org.recommendations.model.Recommendation;
 import org.recommendations.rabbitmq.RabbitMqProducer;
@@ -10,12 +11,16 @@ import org.recommendations.service.RecommendationService;
 import org.recommendations.utils.RecommendationMapper;
 import org.recommendations.utils.RecommendationResource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
+@Slf4j
 @Service
 public class RecommendationServiceImpl implements RecommendationService {
 
@@ -110,5 +115,20 @@ public class RecommendationServiceImpl implements RecommendationService {
         );
         recommendationRepository.delete(recommendationToDelete);
         return recommendationMapper.toResource(recommendationToDelete);
+    }
+
+    @Scheduled(cron = "0 0/1 * * * ?")
+    public void scheduleRecommendationsActualization() {
+        List<Recommendation> recommendationList = recommendationRepository.findAll();
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        List<Recommendation> recsToDelete = recommendationList
+                .stream()
+                // drop recommendations that were given more than a minute ago
+                .filter(recommendation -> Duration.between(recommendation.getDateTime(), currentDateTime).getSeconds() / 60 > 1)
+                .toList();
+        log.info("{} recommendations expired.", recsToDelete.size());
+        for (Recommendation rec: recsToDelete){
+            recommendationRepository.delete(rec);
+        }
     }
 }

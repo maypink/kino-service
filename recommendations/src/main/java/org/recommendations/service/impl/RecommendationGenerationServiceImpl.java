@@ -43,6 +43,7 @@ public class RecommendationGenerationServiceImpl implements RecommendationGenera
                         id,
                         Math.random(),
                         LocalDateTime.now()))
+                .limit(recommendationsNumber)
                 .toList();
     }
 }
