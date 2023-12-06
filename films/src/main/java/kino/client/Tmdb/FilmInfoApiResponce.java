@@ -11,6 +11,7 @@ public record FilmInfoApiResponce(
         Integer id,
         // may be "name" for some movies instead
         String title,
+        String name,
         @JsonProperty("original_language")
         String originalLanguage,
         @JsonProperty("original_title")
